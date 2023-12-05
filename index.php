@@ -1,28 +1,38 @@
 <?php
 include_once("templates/header.php");
+include_once("config/url.php");
 ?>
+
+<script>
+    var BASE_URL = "<?php echo $BASE_URL; ?>";
+</script>
 <script src="./templates/script.js"></script>
+
  <div class="container">
     <?php if(isset($printMsg) && $printMsg != ''): ?>
       <p id="msg"><?= $printMsg ?></p>
     <?php endif; ?>
     <h1 id="main-title">Alunos Matriculados</h1>
-    <form action="#" class='busca'>
-               
-                    <div class="box-dois-itens">
-                        <div>
-                            <label for="buscaPorNome">Nome:</label>
-                            <input type="text" id="buscaPorNome">
-                        </div>
-                        <strong>Ou</strong>
-                        <div>
-                            <label for="buscaPorCpf">Cpf:</label>
-                            <input type="text" id="buscaPorCpf" oninput="formataCpf(this)" maxlength="14">
-                        </div>
-                    </div>
-                    <button class="btn">Buscar</button>
-                
-            </form>
+   
+<body>
+    <h1>Pesquisar Usuário</h1>
+
+    <span id="msg"></span>
+
+    <form id="form-pesquisar">
+        <label>Pesquisar: </label>
+        <input type="text" id = "cpf" name="texto_pesquisar" placeholder="Pesquisar pelo cpf"><br><br>
+
+        <input type="submit" id="btn-pesquisar" value="Pesquisar" name="PesquisarUsuario"><br><br>
+    </form>
+
+  
+
+    <span id="listar-usuarios"></span>
+
+    <script src="js/custom.js"></script>
+</body>
+
     <?php if(count($infos) > 0): ?>
         <table class="table" id="contacts-table">
         <thead>

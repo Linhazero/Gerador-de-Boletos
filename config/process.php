@@ -187,6 +187,8 @@ if(!empty($data)) {
 
   }
 */
+
+
   // Redirect HOME
   header("Location:" . $BASE_URL . "../index.php");
 
