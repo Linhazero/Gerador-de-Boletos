@@ -15,20 +15,24 @@ include_once("config/url.php");
     <h1 id="main-title">Alunos Matriculados</h1>
    
 <body>
-    <h1>Pesquisar Usuário</h1>
 
     <span id="msg"></span>
 
     <form id="form-pesquisar">
         <label>Pesquisar: </label>
-        <input type="text" id = "cpf" name="texto_pesquisar" placeholder="Pesquisar pelo cpf"><br><br>
+        <input type="text"  name="texto_pesquisar" placeholder="Pesquisar pelo cpf"><br><br>
 
         <input type="submit" id="btn-pesquisar" value="Pesquisar" name="PesquisarUsuario"><br><br>
     </form>
 
-  
+    
+    <!-- tabela de pesquisa inicio -->
 
-    <span id="listar-usuarios"></span>
+    <!-- <span id="listar-usuarios"></span> -->
+    <table class="table" id="listar-usuarios" >
+     
+    
+    <!-- tabela de pesquisa final -->
 
     <script src="js/custom.js"></script>
 </body>

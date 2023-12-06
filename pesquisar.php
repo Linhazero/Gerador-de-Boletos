@@ -10,17 +10,17 @@ $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 if (!empty($dados['texto_pesquisar'])) {
 
     // Criar a variável com o caracter "%" indicando que pode ter letras antes e depois do valor pesquisado
-    $cpf = "%" . $dados['texto_pesquisar'] . "%";
+    $nome = "%" . $dados['texto_pesquisar'] . "%";
 
     // Criar QUERY pesquisar usuários
     $query_testes = "SELECT  id, nome, responsavel, telefone, cpf, cpf_responsavel, endereco, email, cadastro, curso, dias, horario, observacao 
             FROM testes
-            WHERE cpf LIKE :cpf";
+            WHERE nome LIKE :nome";
     // Preparar a QUERY
     $result_testes = $conn->prepare($query_testes);
 
     // Substitui o link pelo valor que vem do formulário
-    $result_testes->bindParam(':cpf', $cpf);
+    $result_testes->bindParam(':nome', $nome);
 
     // Executar a QUERY
     $result_testes->execute();
@@ -31,29 +31,50 @@ if (!empty($dados['texto_pesquisar'])) {
     // Acessa o IF quando retornar usuário no banco de dados
     if (($result_testes) and ($result_testes->rowCount() != 0)) {
 
-        // Ler os registros retornado do banco de dados 
-        while($row_teste = $result_testes->fetch(PDO::FETCH_ASSOC)){
-
-            // Extrair o array para imprimir através da chave no array
-            extract($row_teste);
-
-            // Imprimir o valor de cada coluna retornada do banco de dados
-            $listar_testes .= "id: $id<br>";
-            $listar_testes .= "Nome: $nome<br>";
-            $listar_testes .= "responsavel: $responsavel<br>";
-            $listar_testes .= "telefone: $telefone<br>";
-            $listar_testes .= "cpf: $cpf<br>";
-            $listar_testes .= "cpf_responsavel: $cpf_responsavel<br>";
-            $listar_testes .= "endereco: $endereco<br>";
-            $listar_testes .= "email: $email<br>";
-            $listar_testes .= "cadastro: $cadastro<br>";
-            $listar_testes .= "curso: $curso<br>";
-            $listar_testes .= "dias: $dias<br>";
-            $listar_testes .= "horario: $horario<br>";
-            $listar_testes .= "observacao: $observacao<br>";
-            $listar_testes .= "<hr>";
-
+        // Iniciar a tabela
+        $listar_testes = "<table class='table' id='contacts-table'>";
+        $listar_testes .= "<thead>";
+        $listar_testes .= "<tr>";
+        $listar_testes .= "<th scope='col'>#</th>";
+        $listar_testes .= "<th scope='col'>Nome</th>";
+        $listar_testes .= "<th scope='col'>Responsável</th>";
+        $listar_testes .= "<th scope='col'>Telefone</th>";
+        $listar_testes .= "<th scope='col'>CPF</th>";
+        $listar_testes .= "<th scope='col'>CPF do Responsável</th>";
+        $listar_testes .= "<th scope='col'>Endereço</th>";
+        $listar_testes .= "<th scope='col'>E-mail</th>";
+        $listar_testes .= "<th scope='col'>Cadastro</th>";
+        $listar_testes .= "<th scope='col'>Curso</th>";
+        $listar_testes .= "<th scope='col'>Dias</th>";
+        $listar_testes .= "<th scope='col'>Horário</th>";
+        $listar_testes .= "<th scope='col'>Observação</th>";
+        $listar_testes .= "</tr>";
+        $listar_testes .= "</thead>";
+        $listar_testes .= "<tbody>";
+    
+        // Ler os registros retornados do banco de dados 
+        while ($row_teste = $result_testes->fetch(PDO::FETCH_ASSOC)) {
+            // Adicionar cada linha da tabela
+            $listar_testes .= "<tr>";
+            $listar_testes .= "<td>{$row_teste['id']}</td>";
+            $listar_testes .= "<td>{$row_teste['nome']}</td>";
+            $listar_testes .= "<td>{$row_teste['responsavel']}</td>";
+            $listar_testes .= "<td>{$row_teste['telefone']}</td>";
+            $listar_testes .= "<td>{$row_teste['cpf']}</td>";
+            $listar_testes .= "<td>{$row_teste['cpf_responsavel']}</td>";
+            $listar_testes .= "<td>{$row_teste['endereco']}</td>";
+            $listar_testes .= "<td>{$row_teste['email']}</td>";
+            $listar_testes .= "<td>{$row_teste['cadastro']}</td>";
+            $listar_testes .= "<td>{$row_teste['curso']}</td>";
+            $listar_testes .= "<td>{$row_teste['dias']}</td>";
+            $listar_testes .= "<td>{$row_teste['horario']}</td>";
+            $listar_testes .= "<td>{$row_teste['observacao']}</td>";
+            $listar_testes .= "</tr>";
         }
+    
+        // Fechar a tabela
+        $listar_testes .= "</tbody>";
+        $listar_testes .= "</table>";  
 
         // Criar o array de informações que será retornado para o JavaScript
         $retorna = ['status' => true, 'dados' => $listar_testes];
